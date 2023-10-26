@@ -2,15 +2,11 @@ package com.springstudy.mybatisdemo.restcontroller;
 
 import com.springstudy.mybatisdemo.mapper.UserMapper;
 import com.springstudy.mybatisdemo.module.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
 public class UserRestController {
 
     private UserMapper userMapper;
@@ -19,16 +15,23 @@ public class UserRestController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping("/all")
-    public List<User> show(){
-        return userMapper.showAll();
+    @GetMapping("/users")
+    public List<User> showUser(){
+        return userMapper.showUsers();
     }
-/*    @GetMapping("/customshow")
-    public HashMap<String, String> customShow(){
-        return userMapper.customShow();
-    }*/
 
-    @GetMapping("/add")
+    @GetMapping("/users/{id}")
+    public User showUserById(@PathVariable("id") int id){
+        User user = userMapper.showUserById(id);
+        return user;
+    }
+
+    @GetMapping("/users/customshow")
+    public List<List<String>> customShow(){
+        return userMapper.show();
+    }
+
+    @GetMapping("/users/add")
     private List<User> addUser(){
         User user = new User();
         user.setName("Mersedes");
@@ -36,35 +39,33 @@ public class UserRestController {
 
         userMapper.insert(user);
 
-        return userMapper.showAll();
+        return userMapper.showUsers();
     }
 
-    @GetMapping("/update")
-    private List<User> updateUser(){
+    @GetMapping("/users/update/{id}")
+    private List<User> updateUser(@PathVariable("id") int id){
         User user = new User();
-        user.setId(2);
+        user.setId(id);
         user.setName("Tesla");
         user.setSales(43);
 
         userMapper.update(user);
 
-        return userMapper.showAll();
+        return userMapper.showUsers();
     }
-    @GetMapping("/delete")
-    private List<User> deleteUser(){
-        int id = 5;
+    @GetMapping("/users/delete/{id}")
+    private List<User> deleteUser(@PathVariable("id") int id){
 
         userMapper.delete(id);
-
-        return userMapper.showAll();
+        return userMapper.showUsers();
     }
 
-    @GetMapping("/deleteLast")
+    @GetMapping("/users/deleteLast")
     private List<User> deleteLastUser(){
 
         int id = userMapper.count();
         userMapper.delete(id);
 
-        return userMapper.showAll();
+        return userMapper.showUsers();
     }
 }

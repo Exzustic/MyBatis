@@ -2,6 +2,7 @@ package com.springstudy.mybatisdemo.restcontroller;
 
 import com.springstudy.mybatisdemo.mapper.UserMapper;
 import com.springstudy.mybatisdemo.module.User;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,41 +27,41 @@ public class UserRestController {
         return user;
     }
 
-    @GetMapping("/users/customshow")
+/*    @GetMapping("/users/customshow")
     public List<List<String>> customShow(){
         return userMapper.show();
-    }
+    }*/
 
-    @GetMapping("/users/add")
-    private List<User> addUser(){
-        User user = new User();
+    @PostMapping("/users")
+    private List<User> addUser(@RequestBody User user){
+/*        User user = new User();
         user.setName("Mersedes");
-        user.setSales(100);
+        user.setSales(100);*/
 
         userMapper.insert(user);
 
         return userMapper.showUsers();
     }
 
-    @GetMapping("/users/update/{id}")
-    private List<User> updateUser(@PathVariable("id") int id){
-        User user = new User();
+    @PutMapping("/users")
+    private List<User> updateUser(@RequestBody User user){ //
+/*        User user = new User();
         user.setId(id);
         user.setName("Tesla");
-        user.setSales(43);
+        user.setSales(43);*/
 
         userMapper.update(user);
 
         return userMapper.showUsers();
     }
-    @GetMapping("/users/delete/{id}")
+    @DeleteMapping("/users/{id}")
     private List<User> deleteUser(@PathVariable("id") int id){
 
         userMapper.delete(id);
         return userMapper.showUsers();
     }
 
-    @GetMapping("/users/deleteLast")
+    @DeleteMapping("/users/deleteLast")
     private List<User> deleteLastUser(){
 
         int id = userMapper.count();

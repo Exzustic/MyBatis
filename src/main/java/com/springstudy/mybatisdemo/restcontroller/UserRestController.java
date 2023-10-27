@@ -1,11 +1,14 @@
 package com.springstudy.mybatisdemo.restcontroller;
 
 import com.springstudy.mybatisdemo.mapper.UserMapper;
+import com.springstudy.mybatisdemo.module.CustomTable;
 import com.springstudy.mybatisdemo.module.User;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 public class UserRestController {
@@ -27,16 +30,13 @@ public class UserRestController {
         return user;
     }
 
-/*    @GetMapping("/users/customshow")
-    public List<List<String>> customShow(){
-        return userMapper.show();
-    }*/
+    @GetMapping("/users/customshow")
+    public List<CustomTable> customShow(){
+        return userMapper.customShow();
+    }
 
     @PostMapping("/users")
     private List<User> addUser(@RequestBody User user){
-/*        User user = new User();
-        user.setName("Mersedes");
-        user.setSales(100);*/
 
         userMapper.insert(user);
 
@@ -44,11 +44,7 @@ public class UserRestController {
     }
 
     @PutMapping("/users")
-    private List<User> updateUser(@RequestBody User user){ //
-/*        User user = new User();
-        user.setId(id);
-        user.setName("Tesla");
-        user.setSales(43);*/
+    private List<User> updateUser(@RequestBody User user){
 
         userMapper.update(user);
 
